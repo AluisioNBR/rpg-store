@@ -5,8 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja</title>
+
+    <link rel="stylesheet/less" type="text/css" href="styles.less" />
+    <script src="https://cdn.jsdelivr.net/npm/less@4.1.1" defer></script>
+    <script src="./script.js" defer></script>
 </head>
 <body>
-    
+    <div id="store-conteiner" class="generical-menu">
+        <h2 class="titles">
+            Loja
+        </h2>
+
+        <div id="store-button-conteiner" class="generical-button-conteiner">
+            <button class="button">Armas</button>
+            <button class="button">Armaduras</button>
+            <button class="button">Poções</button>
+            <button class="button">Cards</button>
+        </div>
+
+        <div id="products4sale">
+            <div id="weapons-sale" class="active">
+                <div class="product button">
+                    <figure>
+                        <img src="" alt="Arma">
+                        <figcaption>
+                            Arma teste
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div id="armor-sale" class="not-active"></div>
+            <div id="potion-sale" class="not-active"></div>
+            <div id="cards-sale" class="not-active"></div>
+        </div>
+
+        <button id="close-store-button" class="button">
+            Fechar
+        </button>
+    </div>
 </body>
 </html>
