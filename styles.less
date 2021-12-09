@@ -104,19 +104,124 @@ body{
 }
 
 #products4sale{
-    height: 80%;
-    overflow-y: scroll;
+    width: 369.328px;
+    height: 492.438px;
+    overflow-x: auto;
 
     div{
         display: flex;
-        flex-direction: column;
-        gap: .25rem;
+        justify-content: flex-start;
 
-        margin: 0 1rem;
+        margin: 0 .2rem;
+
+        .column{
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
     }
 }
 
 .product{
     background-color: #colors[@white];
-    padding: 3rem 1rem;
+    padding: 2.8rem 2.5rem;
 }
+
+.not-active{
+    position: absolute;
+    z-index: -10;
+
+    opacity: 0;
+    visibility: hidden;
+
+    animation-name: closePopUp;
+	animation-duration: .2s;
+}
+
+.active{
+    opacity: 1;
+    visibility: visible;
+
+    animation-name: openPopUp;
+	animation-duration: .2s;
+}
+
+/* Estilos padrão dos pop-up */
+
+.popup-conteiner{
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 100vw;
+	height: 100vh;
+	background-color: #00000076;	
+}
+
+.popup-conteiner.not-active{
+	opacity: 0;
+	visibility: hidden;
+
+	animation-name: closePopUp;
+	animation-duration: .2s;
+}
+
+.popup-conteiner.active{
+	opacity: 1;
+	visibility: visible;
+
+	animation-name: openPopUp;
+	animation-duration: .2s;
+}
+
+/* Keyframes da animação de abertura/fechamento dos pop-ups */
+
+@keyframes openPopUp{
+	from {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	to {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+@keyframes closePopUp{
+	from {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	to {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+/* ######################################################## */
+
+/* ################################ */
+
+.pop-up{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	gap: 1rem;
+
+	background-color: #colors[@menuBackground];
+    color: #colors[@white];
+	
+    border: #colors[@borderMenu];
+	border-radius: 10%;
+	padding: 2rem;
+}
+
+/* ################################ */
