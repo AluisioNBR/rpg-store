@@ -13,29 +13,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var _Item_name, _Item_id, _Item_price, _Item_img, _Weapon_damage, _Weapon_durability, _Armor_protection, _Armor_durability, _Potion_type, _Potion_power, _Card_efect;
 var Item = /** @class */ (function () {
     function Item(name, id, price, img) {
         if (img === void 0) { img = ''; }
-        _Item_name.set(this, void 0);
-        _Item_id.set(this, void 0);
-        _Item_price.set(this, void 0);
-        _Item_img.set(this, void 0);
-        __classPrivateFieldSet(this, _Item_name, name, "f");
-        __classPrivateFieldSet(this, _Item_id, id, "f");
-        __classPrivateFieldSet(this, _Item_price, price, "f");
-        __classPrivateFieldSet(this, _Item_img, img, "f");
+        this.name = name;
+        this.id = id;
+        this.price = price;
+        this.img = img;
     }
     Item.prototype.buy = function (money) {
         money = money - this.getPrice();
@@ -44,115 +28,112 @@ var Item = /** @class */ (function () {
         }
     };
     Item.prototype.getName = function () {
-        return __classPrivateFieldGet(this, _Item_name, "f");
+        return this.name;
     };
     Item.prototype.getId = function () {
-        return __classPrivateFieldGet(this, _Item_id, "f");
+        return this.id;
     };
     Item.prototype.getPrice = function () {
-        return __classPrivateFieldGet(this, _Item_price, "f");
+        return this.price;
     };
     Item.prototype.getImg = function () {
-        return __classPrivateFieldGet(this, _Item_img, "f");
+        return this.img;
     };
     return Item;
 }());
-_Item_name = new WeakMap(), _Item_id = new WeakMap(), _Item_price = new WeakMap(), _Item_img = new WeakMap();
 var Weapon = /** @class */ (function (_super) {
     __extends(Weapon, _super);
     function Weapon(name, id, price, img, damage, durability) {
         if (img === void 0) { img = ''; }
         var _this = _super.call(this, name, id, price, img) || this;
-        _Weapon_damage.set(_this, void 0);
-        _Weapon_durability.set(_this, void 0);
-        __classPrivateFieldSet(_this, _Weapon_damage, damage, "f");
-        __classPrivateFieldSet(_this, _Weapon_durability, durability, "f");
+        _this.damage = damage;
+        _this.durability = durability;
         return _this;
     }
     Weapon.prototype.getDamage = function () {
-        return __classPrivateFieldGet(this, _Weapon_damage, "f");
+        return this.damage;
     };
     Weapon.prototype.setDurability = function (newDurability) {
-        __classPrivateFieldSet(this, _Weapon_durability, newDurability, "f");
+        this.durability = newDurability;
     };
     Weapon.prototype.getDurability = function () {
-        return __classPrivateFieldGet(this, _Weapon_durability, "f");
+        return this.durability;
     };
     return Weapon;
 }(Item));
-_Weapon_damage = new WeakMap(), _Weapon_durability = new WeakMap();
 var Armor = /** @class */ (function (_super) {
     __extends(Armor, _super);
     function Armor(name, id, price, img, protection, durability) {
         if (img === void 0) { img = ''; }
         var _this = _super.call(this, name, id, price, img) || this;
-        _Armor_protection.set(_this, void 0);
-        _Armor_durability.set(_this, void 0);
-        __classPrivateFieldSet(_this, _Armor_protection, protection, "f");
-        __classPrivateFieldSet(_this, _Armor_durability, durability, "f");
+        _this.protection = protection;
+        _this.durability = durability;
         return _this;
     }
     Armor.prototype.getProtection = function () {
-        return __classPrivateFieldGet(this, _Armor_protection, "f");
+        return this.protection;
     };
     Armor.prototype.setDurability = function (newDurability) {
-        __classPrivateFieldSet(this, _Armor_durability, newDurability, "f");
+        this.durability = newDurability;
     };
     Armor.prototype.getDurability = function () {
-        return __classPrivateFieldGet(this, _Armor_durability, "f");
+        return this.durability;
     };
     return Armor;
 }(Item));
-_Armor_protection = new WeakMap(), _Armor_durability = new WeakMap();
 var Potion = /** @class */ (function (_super) {
     __extends(Potion, _super);
     function Potion(name, id, price, img, type, power) {
         if (img === void 0) { img = ''; }
         var _this = _super.call(this, name, id, price, img) || this;
-        _Potion_type.set(_this, void 0);
-        _Potion_power.set(_this, void 0);
-        __classPrivateFieldSet(_this, _Potion_type, type, "f");
-        __classPrivateFieldSet(_this, _Potion_power, power, "f");
+        _this.type = type;
+        _this.power = power;
         return _this;
     }
     Potion.prototype.use = function () {
         if (this.getType() == 'heal')
-            console.log("A po\u00E7\u00E3o " + this.getName() + " recupera " + __classPrivateFieldGet(this, _Potion_power, "f") + " pontos de vida!");
+            console.log("A po\u00E7\u00E3o " + this.getName() + " recupera " + this.power + " pontos de vida!");
         else if (this.getType() == 'mana/stamina')
-            console.log("A po\u00E7\u00E3o " + this.getName() + " recupera " + __classPrivateFieldGet(this, _Potion_power, "f") + " pontos de mana/vigor!");
+            console.log("A po\u00E7\u00E3o " + this.getName() + " recupera " + this.power + " pontos de mana/vigor!");
         else if (this.getType() == 'strength')
-            console.log("A po\u00E7\u00E3o " + this.getName() + " aumenta a for\u00E7a em " + __classPrivateFieldGet(this, _Potion_power, "f") + " pontos!");
+            console.log("A po\u00E7\u00E3o " + this.getName() + " aumenta a for\u00E7a em " + this.power + " pontos!");
         else if (this.getType() == 'protection')
-            console.log("A po\u00E7\u00E3o " + this.getName() + " aumenta a prote\u00E7\u00E3o em " + __classPrivateFieldGet(this, _Potion_power, "f") + " pontos!");
+            console.log("A po\u00E7\u00E3o " + this.getName() + " aumenta a prote\u00E7\u00E3o em " + this.power + " pontos!");
         else if (this.getType() == 'xp')
-            console.log("A po\u00E7\u00E3o " + this.getName() + " aumenta o xp em " + __classPrivateFieldGet(this, _Potion_power, "f") + " pontos!");
+            console.log("A po\u00E7\u00E3o " + this.getName() + " aumenta o xp em " + this.power + " pontos!");
     };
     Potion.prototype.getType = function () {
-        return __classPrivateFieldGet(this, _Potion_type, "f");
+        return this.type;
     };
     Potion.prototype.getPower = function () {
-        return __classPrivateFieldGet(this, _Potion_power, "f");
+        return this.power;
     };
     return Potion;
 }(Item));
-_Potion_type = new WeakMap(), _Potion_power = new WeakMap();
 var Card = /** @class */ (function (_super) {
     __extends(Card, _super);
     function Card(name, id, price, img, efect) {
         if (img === void 0) { img = ''; }
         var _this = _super.call(this, name, id, price, img) || this;
-        _Card_efect.set(_this, void 0);
-        __classPrivateFieldSet(_this, _Card_efect, efect, "f");
+        _this.efect = efect;
         return _this;
     }
     Card.prototype.use = function () {
-        var rtrn = __classPrivateFieldGet(this, _Card_efect, "f").call(this);
+        var rtrn = this.efect();
         if (rtrn != undefined)
             return rtrn;
     };
     return Card;
 }(Item));
-_Card_efect = new WeakMap();
+var Weapons = {
+    espadaTeste: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+    espadaTeste2: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+    espadaTeste3: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+    deathSword: new Weapon('Espada da Morte', 2, 100000, '', 50000, 75000)
+};
+var Armors = {};
+var Potions = {};
+var Cards = {};
 var PopUp = {
     weapons: {
         conteiner: $('#weapons-sale'),
@@ -237,3 +218,23 @@ var PopUp = {
     PopUp.potions.button.on('click', PopUp.potions.open);
     PopUp.cards.button.on('click', PopUp.cards.open);
 }
+var newColumn;
+for (var weapon in Weapons) {
+    var item = void 0;
+    if (PopUp.weapons.conteiner.is(':empty') || item == 2) {
+        newColumn = $('<div />').addClass('column');
+        PopUp.weapons.conteiner.append(newColumn);
+        item = 0;
+    }
+    var imgDetails = $('<figure />');
+    imgDetails.append($('<img />').attr('src', "" + Weapons["" + weapon].getImg()).attr('alt', "" + Weapons["" + weapon].getName()));
+    imgDetails.append($('<figcaption />').text(Weapons["" + weapon].getName() + "\n" + Weapons["" + weapon].getPrice() + " coins"));
+    var newWeapon = $('<div />').addClass('product').addClass('button').append(imgDetails);
+    newColumn.append(newWeapon);
+    item++;
+}
+/*
+for(let armor in Armors){}
+for(let potion in Potions){}
+for(let card in Cards){}
+*/ 

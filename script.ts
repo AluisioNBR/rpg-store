@@ -1,14 +1,16 @@
+type active = () => {}
+
 class Item {
-    #name: string
-    #id: number
-    #price: number
-    #img: string
+    private name: string
+    private id: number
+    private price: number
+    private img: string
 
     constructor(name: string, id: number, price: number, img: string = '') {
-        this.#name = name
-        this.#id = id
-        this.#price = price
-        this.#img = img
+        this.name = name
+        this.id = id
+        this.price = price
+        this.img = img
     }
 
     buy(money: number){
@@ -20,113 +22,123 @@ class Item {
     }
 
     getName(){
-        return this.#name
+        return this.name
     }
     
     getId(){
-        return this.#id
+        return this.id
     }
     
     getPrice(){
-        return this.#price
+        return this.price
     }
 
     getImg(){
-        return this.#img
+        return this.img
     }
 }
 
 class Weapon extends Item {
-    #damage: number
-    #durability: number
+    private damage: number
+    private durability: number
 
     constructor(name: string, id: number, price: number, img: string = '', damage: number, durability: number){
         super(name, id, price, img)
-        this.#damage = damage
-        this.#durability = durability
+        this.damage = damage
+        this.durability = durability
     }
 
     getDamage(){
-        return this.#damage
+        return this.damage
     }
 
     setDurability(newDurability: number){
-        this.#durability = newDurability
+        this.durability = newDurability
     }
     
     getDurability(){
-        return this.#durability
+        return this.durability
     }
 }
 
 class Armor extends Item {
-    #protection: number
-    #durability: number
+    private protection: number
+    private durability: number
 
     constructor(name: string, id: number, price: number, img: string = '', protection: number, durability: number){
         super(name, id, price, img)
-        this.#protection = protection
-        this.#durability = durability
+        this.protection = protection
+        this.durability = durability
     }
 
     getProtection(){
-        return this.#protection
+        return this.protection
     }
 
     setDurability(newDurability: number){
-        this.#durability = newDurability
+        this.durability = newDurability
     }
     
     getDurability(){
-        return this.#durability
+        return this.durability
     }
 }
 
 class Potion extends Item {
-    #type: string
-    #power: number
+    private type: string
+    private power: number
 
     constructor(name: string, id: number, price: number, img: string = '', type: 'heal' | 'mana/stamina' | 'strength' | 'protection' | 'xp', power: number){
         super(name, id, price, img)
-        this.#type = type
-        this.#power = power
+        this.type = type
+        this.power = power
     }
 
     use(){
-        if(this.getType() == 'heal') console.log(`A poção ${this.getName()} recupera ${this.#power} pontos de vida!`)
+        if(this.getType() == 'heal') console.log(`A poção ${this.getName()} recupera ${this.power} pontos de vida!`)
 
-        else if(this.getType() == 'mana/stamina') console.log(`A poção ${this.getName()} recupera ${this.#power} pontos de mana/vigor!`)
+        else if(this.getType() == 'mana/stamina') console.log(`A poção ${this.getName()} recupera ${this.power} pontos de mana/vigor!`)
 
-        else if(this.getType() == 'strength') console.log(`A poção ${this.getName()} aumenta a força em ${this.#power} pontos!`)
+        else if(this.getType() == 'strength') console.log(`A poção ${this.getName()} aumenta a força em ${this.power} pontos!`)
 
-        else if(this.getType() == 'protection') console.log(`A poção ${this.getName()} aumenta a proteção em ${this.#power} pontos!`)
+        else if(this.getType() == 'protection') console.log(`A poção ${this.getName()} aumenta a proteção em ${this.power} pontos!`)
 
-        else if(this.getType() == 'xp') console.log(`A poção ${this.getName()} aumenta o xp em ${this.#power} pontos!`)
+        else if(this.getType() == 'xp') console.log(`A poção ${this.getName()} aumenta o xp em ${this.power} pontos!`)
     }
 
     getType(){
-        return this.#type 
+        return this.type 
     }
 
     getPower(){
-        return this.#power
+        return this.power
     }
 }
 
 class Card extends Item {
-    #efect
+    private efect: active
 
-    constructor(name: string, id: number, price: number, img: string = '', efect){
+    constructor(name: string, id: number, price: number, img: string = '', efect: active){
         super(name, id, price, img)
-        this.#efect = efect
+        this.efect = efect
     }
 
     use(){
-        const rtrn = this.#efect()
+        const rtrn = this.efect()
 
         if(rtrn != undefined) return rtrn
     }
 }
+
+const Weapons = {
+    espadaTeste: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+    espadaTeste2: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+    espadaTeste3: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+    deathSword: new Weapon('Espada da Morte', 2, 100000, '', 50000, 75000)
+}
+const Armors = {}
+const Potions = {}
+const Cards = {}
 
 const PopUp = {
     weapons: {
@@ -228,3 +240,28 @@ const PopUp = {
     PopUp.potions.button.on('click', PopUp.potions.open)
     PopUp.cards.button.on('click', PopUp.cards.open)
 }
+
+let newColumn: JQuery<HTMLElement>
+for(let weapon in Weapons){
+    let item: number
+
+    if(PopUp.weapons.conteiner.is(':empty') || item == 2){
+        newColumn = $('<div />').addClass('column')
+        PopUp.weapons.conteiner.append(newColumn)
+        item = 0
+    }
+
+    let imgDetails = $('<figure />')
+    imgDetails.append($('<img />').attr('src', `${Weapons[`${weapon}`].getImg()}`).attr('alt', `${Weapons[`${weapon}`].getName()}`))
+    imgDetails.append($('<figcaption />').text(`${Weapons[`${weapon}`].getName()}\n${Weapons[`${weapon}`].getPrice()} coins`))
+
+    let newWeapon = $('<div />').addClass('product').addClass('button').append(imgDetails)
+    newColumn.append(newWeapon)
+
+    item++
+}
+/*
+for(let armor in Armors){}
+for(let potion in Potions){}
+for(let card in Cards){}
+*/
