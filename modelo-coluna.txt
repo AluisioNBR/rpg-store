@@ -1,0 +1,12 @@
+/*
+<div class="column">
+    <div class="product button">
+        <figure>
+            <img src="" alt="Arma">
+            <figcaption>
+                Arma teste
+            </figcaption>
+        </figure>
+    </div>
+</div>
+*/

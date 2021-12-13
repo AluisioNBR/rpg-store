@@ -1,4 +1,4 @@
-type active = () => {}
+type active = {func: () => void | string | number | object}
 
 class Item {
     private name: string
@@ -124,21 +124,33 @@ class Card extends Item {
     }
 
     use(){
-        const rtrn = this.efect()
+        const rtrn = this.efect.func()
 
         if(rtrn != undefined) return rtrn
     }
 }
 
 const Weapons = {
-    espadaTeste: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-    espadaTeste2: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-    espadaTeste3: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-    deathSword: new Weapon('Espada da Morte', 2, 100000, '', 50000, 75000)
+    testeSword: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+    testeSword2: new Weapon('Espada Teste', 2, 100, '', 50, 75),
+    testeSword3: new Weapon('Espada Teste', 3, 100, '', 50, 75)
 }
-const Armors = {}
-const Potions = {}
-const Cards = {}
+
+const Armors = {
+    testArmor: new Armor('Armadura Teste', 4, 100, '', 50, 75),
+    testArmor2: new Armor('Armadura Teste', 5, 100, '', 50, 75),
+    testArmor3: new Armor('Armadura Teste', 6, 100, '', 50, 75),
+    testArmor4: new Armor('Armadura Teste', 7, 100, '', 50, 75)
+}
+
+const Potions = {
+    testPotion: new Potion('Pequena Cura', 8, 100, '', 'heal', 25)
+}
+
+const Cards = {
+    testCard: new Card('Olá!', 9, 10, '', {func: () => {console.log('Olá')}}),
+    testCard2: new Card('Desenvolvedor', 9, 10, '', {func: () => {console.log('Desenvolvida por mim, Aluísio!')}})
+}
 
 const PopUp = {
     weapons: {
@@ -241,27 +253,89 @@ const PopUp = {
     PopUp.cards.button.on('click', PopUp.cards.open)
 }
 
-let newColumn: JQuery<HTMLElement>
-for(let weapon in Weapons){
-    let item: number
+// * Inicialização dos produtos
+{
+    {
+        let newColumn: JQuery<HTMLElement>
+        let item: number
+        for(let weapon in Weapons){
+            if(PopUp.weapons.conteiner.is(':empty') || item == 2){
+                newColumn = $('<div />').addClass('column')
+                PopUp.weapons.conteiner.append(newColumn)
+                item = 0
+            }
 
-    if(PopUp.weapons.conteiner.is(':empty') || item == 2){
-        newColumn = $('<div />').addClass('column')
-        PopUp.weapons.conteiner.append(newColumn)
-        item = 0
+            let imgDetails = $('<figure />')
+            imgDetails.append($('<img />').attr('src', `${Weapons[`${weapon}`].getImg()}`).attr('alt', `${Weapons[`${weapon}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${Weapons[`${weapon}`].getName()}\n${Weapons[`${weapon}`].getPrice()} coins`))
+
+            let newWeapon = $('<div />').addClass('product').addClass('button').append(imgDetails)
+            newColumn.append(newWeapon)
+
+            item++
+        }
     }
 
-    let imgDetails = $('<figure />')
-    imgDetails.append($('<img />').attr('src', `${Weapons[`${weapon}`].getImg()}`).attr('alt', `${Weapons[`${weapon}`].getName()}`))
-    imgDetails.append($('<figcaption />').text(`${Weapons[`${weapon}`].getName()}\n${Weapons[`${weapon}`].getPrice()} coins`))
+    {
+        let newColumn: JQuery<HTMLElement>
+        let item: number
+        for(let armor in Armors){
+            if(PopUp.armors.conteiner.is(':empty') || item == 2){
+                newColumn = $('<div />').addClass('column')
+                PopUp.armors.conteiner.append(newColumn)
+                item = 0
+            }
 
-    let newWeapon = $('<div />').addClass('product').addClass('button').append(imgDetails)
-    newColumn.append(newWeapon)
+            let imgDetails = $('<figure />')
+            imgDetails.append($('<img />').attr('src', `${Armors[`${armor}`].getImg()}`).attr('alt', `${Armors[`${armor}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${Armors[`${armor}`].getName()}\n${Armors[`${armor}`].getPrice()} coins`))
 
-    item++
+            let newArmor = $('<div />').addClass('product').addClass('button').append(imgDetails)
+            newColumn.append(newArmor)
+
+            item++
+        }
+    }
+
+    {
+        let newColumn: JQuery<HTMLElement>
+        let item: number
+        for(let potion in Potions){
+            if(PopUp.potions.conteiner.is(':empty') || item == 2){
+                newColumn = $('<div />').addClass('column')
+                PopUp.potions.conteiner.append(newColumn)
+                item = 0
+            }
+
+            let imgDetails = $('<figure />')
+            imgDetails.append($('<img />').attr('src', `${Potions[`${potion}`].getImg()}`).attr('alt', `${Potions[`${potion}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${Potions[`${potion}`].getName()}\n${Potions[`${potion}`].getPrice()} coins`))
+
+            let newPotion = $('<div />').addClass('product').addClass('button').append(imgDetails)
+            newColumn.append(newPotion)
+
+            item++
+        }
+    }
+
+    {
+        let newColumn: JQuery<HTMLElement>
+        let item: number
+        for(let card in Cards){
+            if(PopUp.cards.conteiner.is(':empty') || item == 2){
+                newColumn = $('<div />').addClass('column')
+                PopUp.cards.conteiner.append(newColumn)
+                item = 0
+            }
+
+            let imgDetails = $('<figure />')
+            imgDetails.append($('<img />').attr('src', `${Cards[`${card}`].getImg()}`).attr('alt', `${Cards[`${card}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${Cards[`${card}`].getName()}\n${Cards[`${card}`].getPrice()} coins`))
+
+            let newCard = $('<div />').addClass('product').addClass('button').append(imgDetails)
+            newColumn.append(newCard)
+
+            item++
+        }
+    }
 }
-/*
-for(let armor in Armors){}
-for(let potion in Potions){}
-for(let card in Cards){}
-*/

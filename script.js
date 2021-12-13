@@ -119,21 +119,30 @@ var Card = /** @class */ (function (_super) {
         return _this;
     }
     Card.prototype.use = function () {
-        var rtrn = this.efect();
+        var rtrn = this.efect.func();
         if (rtrn != undefined)
             return rtrn;
     };
     return Card;
 }(Item));
 var Weapons = {
-    espadaTeste: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-    espadaTeste2: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-    espadaTeste3: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-    deathSword: new Weapon('Espada da Morte', 2, 100000, '', 50000, 75000)
+    testeSword: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+    testeSword2: new Weapon('Espada Teste', 2, 100, '', 50, 75),
+    testeSword3: new Weapon('Espada Teste', 3, 100, '', 50, 75)
 };
-var Armors = {};
-var Potions = {};
-var Cards = {};
+var Armors = {
+    testArmor: new Armor('Armadura Teste', 4, 100, '', 50, 75),
+    testArmor2: new Armor('Armadura Teste', 5, 100, '', 50, 75),
+    testArmor3: new Armor('Armadura Teste', 6, 100, '', 50, 75),
+    testArmor4: new Armor('Armadura Teste', 7, 100, '', 50, 75)
+};
+var Potions = {
+    testPotion: new Potion('Pequena Cura', 8, 100, '', 'heal', 25)
+};
+var Cards = {
+    testCard: new Card('Olá!', 9, 10, '', { func: function () { console.log('Olá'); } }),
+    testCard2: new Card('Desenvolvedor', 9, 10, '', { func: function () { console.log('Desenvolvida por mim, Aluísio!'); } })
+};
 var PopUp = {
     weapons: {
         conteiner: $('#weapons-sale'),
@@ -218,23 +227,74 @@ var PopUp = {
     PopUp.potions.button.on('click', PopUp.potions.open);
     PopUp.cards.button.on('click', PopUp.cards.open);
 }
-var newColumn;
-for (var weapon in Weapons) {
-    var item = void 0;
-    if (PopUp.weapons.conteiner.is(':empty') || item == 2) {
-        newColumn = $('<div />').addClass('column');
-        PopUp.weapons.conteiner.append(newColumn);
-        item = 0;
+// * Inicialização dos produtos
+{
+    {
+        var newColumn = void 0;
+        var item = void 0;
+        for (var weapon in Weapons) {
+            if (PopUp.weapons.conteiner.is(':empty') || item == 2) {
+                newColumn = $('<div />').addClass('column');
+                PopUp.weapons.conteiner.append(newColumn);
+                item = 0;
+            }
+            var imgDetails = $('<figure />');
+            imgDetails.append($('<img />').attr('src', "" + Weapons["" + weapon].getImg()).attr('alt', "" + Weapons["" + weapon].getName()));
+            imgDetails.append($('<figcaption />').text(Weapons["" + weapon].getName() + "\n" + Weapons["" + weapon].getPrice() + " coins"));
+            var newWeapon = $('<div />').addClass('product').addClass('button').append(imgDetails);
+            newColumn.append(newWeapon);
+            item++;
+        }
     }
-    var imgDetails = $('<figure />');
-    imgDetails.append($('<img />').attr('src', "" + Weapons["" + weapon].getImg()).attr('alt', "" + Weapons["" + weapon].getName()));
-    imgDetails.append($('<figcaption />').text(Weapons["" + weapon].getName() + "\n" + Weapons["" + weapon].getPrice() + " coins"));
-    var newWeapon = $('<div />').addClass('product').addClass('button').append(imgDetails);
-    newColumn.append(newWeapon);
-    item++;
+    {
+        var newColumn = void 0;
+        var item = void 0;
+        for (var armor in Armors) {
+            if (PopUp.armors.conteiner.is(':empty') || item == 2) {
+                newColumn = $('<div />').addClass('column');
+                PopUp.armors.conteiner.append(newColumn);
+                item = 0;
+            }
+            var imgDetails = $('<figure />');
+            imgDetails.append($('<img />').attr('src', "" + Armors["" + armor].getImg()).attr('alt', "" + Armors["" + armor].getName()));
+            imgDetails.append($('<figcaption />').text(Armors["" + armor].getName() + "\n" + Armors["" + armor].getPrice() + " coins"));
+            var newArmor = $('<div />').addClass('product').addClass('button').append(imgDetails);
+            newColumn.append(newArmor);
+            item++;
+        }
+    }
+    {
+        var newColumn = void 0;
+        var item = void 0;
+        for (var potion in Potions) {
+            if (PopUp.potions.conteiner.is(':empty') || item == 2) {
+                newColumn = $('<div />').addClass('column');
+                PopUp.potions.conteiner.append(newColumn);
+                item = 0;
+            }
+            var imgDetails = $('<figure />');
+            imgDetails.append($('<img />').attr('src', "" + Potions["" + potion].getImg()).attr('alt', "" + Potions["" + potion].getName()));
+            imgDetails.append($('<figcaption />').text(Potions["" + potion].getName() + "\n" + Potions["" + potion].getPrice() + " coins"));
+            var newPotion = $('<div />').addClass('product').addClass('button').append(imgDetails);
+            newColumn.append(newPotion);
+            item++;
+        }
+    }
+    {
+        var newColumn = void 0;
+        var item = void 0;
+        for (var card in Cards) {
+            if (PopUp.cards.conteiner.is(':empty') || item == 2) {
+                newColumn = $('<div />').addClass('column');
+                PopUp.cards.conteiner.append(newColumn);
+                item = 0;
+            }
+            var imgDetails = $('<figure />');
+            imgDetails.append($('<img />').attr('src', "" + Cards["" + card].getImg()).attr('alt', "" + Cards["" + card].getName()));
+            imgDetails.append($('<figcaption />').text(Cards["" + card].getName() + "\n" + Cards["" + card].getPrice() + " coins"));
+            var newCard = $('<div />').addClass('product').addClass('button').append(imgDetails);
+            newColumn.append(newCard);
+            item++;
+        }
+    }
 }
-/*
-for(let armor in Armors){}
-for(let potion in Potions){}
-for(let card in Cards){}
-*/ 
