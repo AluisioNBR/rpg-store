@@ -1,4 +1,4 @@
-type active = {func: () => void | string | number | object}
+type active = () => void | string | number | object
 
 class Item {
     private name: string
@@ -124,32 +124,34 @@ class Card extends Item {
     }
 
     use(){
-        const rtrn = this.efect.func()
+        const rtrn = this.efect()
 
         if(rtrn != undefined) return rtrn
     }
 }
 
-const Weapons = {
-    testeSword: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-    testeSword2: new Weapon('Espada Teste', 2, 100, '', 50, 75),
-    testeSword3: new Weapon('Espada Teste', 3, 100, '', 50, 75)
-}
+const Catalog = {
+    Weapons: {
+        testeSword: new Weapon('Espada Teste', 1, 100, '', 50, 75),
+        testeSword2: new Weapon('Espada Teste', 2, 100, '', 50, 75),
+        testeSword3: new Weapon('Espada Teste', 3, 100, '', 50, 75)
+    },
 
-const Armors = {
-    testArmor: new Armor('Armadura Teste', 4, 100, '', 50, 75),
-    testArmor2: new Armor('Armadura Teste', 5, 100, '', 50, 75),
-    testArmor3: new Armor('Armadura Teste', 6, 100, '', 50, 75),
-    testArmor4: new Armor('Armadura Teste', 7, 100, '', 50, 75)
-}
+    Armors: {
+        testArmor: new Armor('Armadura Teste', 4, 100, '', 50, 75),
+        testArmor2: new Armor('Armadura Teste', 5, 100, '', 50, 75),
+        testArmor3: new Armor('Armadura Teste', 6, 100, '', 50, 75),
+        testArmor4: new Armor('Armadura Teste', 7, 100, '', 50, 75)
+    },
 
-const Potions = {
-    testPotion: new Potion('Pequena Cura', 8, 100, '', 'heal', 25)
-}
+    Potions: {
+        testPotion: new Potion('Pequena Cura', 8, 100, '', 'heal', 25)
+    },
 
-const Cards = {
-    testCard: new Card('Olá!', 9, 10, '', {func: () => {console.log('Olá')}}),
-    testCard2: new Card('Desenvolvedor', 9, 10, '', {func: () => {console.log('Desenvolvida por mim, Aluísio!')}})
+    Cards: {
+        testCard: new Card('Olá!', 9, 10, '', () => console.log('Olá')),
+        testCard2: new Card('Desenvolvedor', 9, 10, '', () => console.log('Desenvolvida por mim, Aluísio!'))
+    }
 }
 
 const PopUp = {
@@ -258,7 +260,7 @@ const PopUp = {
     {
         let newColumn: JQuery<HTMLElement>
         let item: number
-        for(let weapon in Weapons){
+        for(let weapon in Catalog.Weapons){
             if(PopUp.weapons.conteiner.is(':empty') || item == 2){
                 newColumn = $('<div />').addClass('column')
                 PopUp.weapons.conteiner.append(newColumn)
@@ -266,8 +268,8 @@ const PopUp = {
             }
 
             let imgDetails = $('<figure />')
-            imgDetails.append($('<img />').attr('src', `${Weapons[`${weapon}`].getImg()}`).attr('alt', `${Weapons[`${weapon}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${Weapons[`${weapon}`].getName()}\n${Weapons[`${weapon}`].getPrice()} coins`))
+            imgDetails.append($('<img />').attr('src', `${Catalog.Weapons[`${weapon}`].getImg()}`).attr('alt', `${Catalog.Weapons[`${weapon}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${Catalog.Weapons[`${weapon}`].getName()}\n${Catalog.Weapons[`${weapon}`].getPrice()} coins`))
 
             let newWeapon = $('<div />').addClass('product').addClass('button').append(imgDetails)
             newColumn.append(newWeapon)
@@ -279,7 +281,7 @@ const PopUp = {
     {
         let newColumn: JQuery<HTMLElement>
         let item: number
-        for(let armor in Armors){
+        for(let armor in Catalog.Armors){
             if(PopUp.armors.conteiner.is(':empty') || item == 2){
                 newColumn = $('<div />').addClass('column')
                 PopUp.armors.conteiner.append(newColumn)
@@ -287,8 +289,8 @@ const PopUp = {
             }
 
             let imgDetails = $('<figure />')
-            imgDetails.append($('<img />').attr('src', `${Armors[`${armor}`].getImg()}`).attr('alt', `${Armors[`${armor}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${Armors[`${armor}`].getName()}\n${Armors[`${armor}`].getPrice()} coins`))
+            imgDetails.append($('<img />').attr('src', `${Catalog.Armors[`${armor}`].getImg()}`).attr('alt', `${Catalog.Armors[`${armor}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${Catalog.Armors[`${armor}`].getName()}\n${Catalog.Armors[`${armor}`].getPrice()} coins`))
 
             let newArmor = $('<div />').addClass('product').addClass('button').append(imgDetails)
             newColumn.append(newArmor)
@@ -300,7 +302,7 @@ const PopUp = {
     {
         let newColumn: JQuery<HTMLElement>
         let item: number
-        for(let potion in Potions){
+        for(let potion in Catalog.Potions){
             if(PopUp.potions.conteiner.is(':empty') || item == 2){
                 newColumn = $('<div />').addClass('column')
                 PopUp.potions.conteiner.append(newColumn)
@@ -308,8 +310,8 @@ const PopUp = {
             }
 
             let imgDetails = $('<figure />')
-            imgDetails.append($('<img />').attr('src', `${Potions[`${potion}`].getImg()}`).attr('alt', `${Potions[`${potion}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${Potions[`${potion}`].getName()}\n${Potions[`${potion}`].getPrice()} coins`))
+            imgDetails.append($('<img />').attr('src', `${Catalog.Potions[`${potion}`].getImg()}`).attr('alt', `${Catalog.Potions[`${potion}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${Catalog.Potions[`${potion}`].getName()}\n${Catalog.Potions[`${potion}`].getPrice()} coins`))
 
             let newPotion = $('<div />').addClass('product').addClass('button').append(imgDetails)
             newColumn.append(newPotion)
@@ -321,7 +323,7 @@ const PopUp = {
     {
         let newColumn: JQuery<HTMLElement>
         let item: number
-        for(let card in Cards){
+        for(let card in Catalog.Cards){
             if(PopUp.cards.conteiner.is(':empty') || item == 2){
                 newColumn = $('<div />').addClass('column')
                 PopUp.cards.conteiner.append(newColumn)
@@ -329,8 +331,8 @@ const PopUp = {
             }
 
             let imgDetails = $('<figure />')
-            imgDetails.append($('<img />').attr('src', `${Cards[`${card}`].getImg()}`).attr('alt', `${Cards[`${card}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${Cards[`${card}`].getName()}\n${Cards[`${card}`].getPrice()} coins`))
+            imgDetails.append($('<img />').attr('src', `${Catalog.Cards[`${card}`].getImg()}`).attr('alt', `${Catalog.Cards[`${card}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${Catalog.Cards[`${card}`].getName()}\n${Catalog.Cards[`${card}`].getPrice()} coins`))
 
             let newCard = $('<div />').addClass('product').addClass('button').append(imgDetails)
             newColumn.append(newCard)
