@@ -15,10 +15,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 // * Classe item padrão
 var Item = /** @class */ (function () {
-    function Item(name, id, price, img) {
+    function Item(name, id, description, price, img) {
         if (img === void 0) { img = ''; }
         this.name = name;
         this.id = id;
+        this.description = description;
         this.price = price;
         this.img = img;
     }
@@ -34,6 +35,9 @@ var Item = /** @class */ (function () {
     Item.prototype.getId = function () {
         return this.id;
     };
+    Item.prototype.getDescription = function () {
+        return this.description;
+    };
     Item.prototype.getPrice = function () {
         return this.price;
     };
@@ -45,9 +49,9 @@ var Item = /** @class */ (function () {
 // * Classe item arma
 var Weapon = /** @class */ (function (_super) {
     __extends(Weapon, _super);
-    function Weapon(name, id, price, img, damage, durability) {
+    function Weapon(name, id, description, price, img, damage, durability) {
         if (img === void 0) { img = ''; }
-        var _this = _super.call(this, name, id, price, img) || this;
+        var _this = _super.call(this, name, id, description, price, img) || this;
         _this.damage = damage;
         _this.durability = durability;
         return _this;
@@ -66,9 +70,9 @@ var Weapon = /** @class */ (function (_super) {
 // * Classe item armadura
 var Armor = /** @class */ (function (_super) {
     __extends(Armor, _super);
-    function Armor(name, id, price, img, protection, durability) {
+    function Armor(name, id, description, price, img, protection, durability) {
         if (img === void 0) { img = ''; }
-        var _this = _super.call(this, name, id, price, img) || this;
+        var _this = _super.call(this, name, id, description, price, img) || this;
         _this.protection = protection;
         _this.durability = durability;
         return _this;
@@ -87,9 +91,9 @@ var Armor = /** @class */ (function (_super) {
 // * Classe item poção
 var Potion = /** @class */ (function (_super) {
     __extends(Potion, _super);
-    function Potion(name, id, price, img, type, power) {
+    function Potion(name, id, description, price, img, type, power) {
         if (img === void 0) { img = ''; }
-        var _this = _super.call(this, name, id, price, img) || this;
+        var _this = _super.call(this, name, id, description, price, img) || this;
         _this.type = type;
         _this.power = power;
         return _this;
@@ -117,9 +121,9 @@ var Potion = /** @class */ (function (_super) {
 // * Classe item card
 var Card = /** @class */ (function (_super) {
     __extends(Card, _super);
-    function Card(name, id, price, img, efect) {
+    function Card(name, id, description, price, img, efect) {
         if (img === void 0) { img = ''; }
-        var _this = _super.call(this, name, id, price, img) || this;
+        var _this = _super.call(this, name, id, description, price, img) || this;
         _this.efect = efect;
         return _this;
     }
@@ -133,22 +137,22 @@ var Card = /** @class */ (function (_super) {
 // * Catálogo dos itens
 var Catalog = {
     Weapons: {
-        testeSword: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-        testeSword2: new Weapon('Espada Teste', 2, 100, '', 50, 75),
-        testeSword3: new Weapon('Espada Teste', 3, 100, '', 50, 75)
+        testeSword: new Weapon('Espada Teste', 1, 'Apenas uma espada de teste', 100, '', 50, 75),
+        testeSword2: new Weapon('Espada Teste', 2, 'Apenas uma espada de teste', 100, '', 50, 75),
+        testeSword3: new Weapon('Espada Teste', 3, 'Apenas uma espada de teste', 100, '', 50, 75)
     },
     Armors: {
-        testArmor: new Armor('Armadura Teste', 4, 100, '', 50, 75),
-        testArmor2: new Armor('Armadura Teste', 5, 100, '', 50, 75),
-        testArmor3: new Armor('Armadura Teste', 6, 100, '', 50, 75),
-        testArmor4: new Armor('Armadura Teste', 7, 100, '', 50, 75)
+        testArmor: new Armor('Armadura Teste', 4, 'Apenas uma armadura de teste', 100, '', 50, 75),
+        testArmor2: new Armor('Armadura Teste', 5, 'Apenas uma armadura de teste', 100, '', 50, 75),
+        testArmor3: new Armor('Armadura Teste', 6, 'Apenas uma armadura de teste', 100, '', 50, 75),
+        testArmor4: new Armor('Armadura Teste', 7, 'Apenas uma armadura de teste', 100, '', 50, 75)
     },
     Potions: {
-        testPotion: new Potion('Pequena Cura', 8, 100, '', 'heal', 25)
+        testPotion: new Potion('Pequena Cura', 8, 'Apenas uma poção de teste', 100, '', 'heal', 25)
     },
     Cards: {
-        testCard: new Card('Olá!', 9, 10, '', function () { return console.log('Olá'); }),
-        testCard2: new Card('Dev', 9, 10, '', function () { return console.log('Desenvolvida por mim, Aluísio!'); })
+        testCard: new Card('Olá!', 9, 'Apenas um card de teste', 10, '', function () { return console.log('Olá'); }),
+        testCard2: new Card('Dev', 9, 'Apenas um card de teste', 10, '', function () { return console.log('Desenvolvida por mim, Aluísio!'); })
     }
 };
 var PopUp = {
@@ -227,6 +231,49 @@ var PopUp = {
                 PopUp.cards.conteiner.addClass('not-active');
             }
         }
+    },
+    itensDetails: {
+        conteiner: $('#itensDetails'),
+        button: $('#close-itensDetails'),
+        open: function (itemId) {
+            if (PopUp.itensDetails.conteiner.hasClass('not-active')) {
+                PopUp.itensDetails.conteiner.removeClass('not-active');
+                PopUp.itensDetails.conteiner.addClass('active');
+                var id = Number(itemId.split('-')[1]);
+                PopUp.itensDetails.addItemDetais(id);
+            }
+        },
+        close: function () {
+            if (PopUp.itensDetails.conteiner.hasClass('active')) {
+                PopUp.itensDetails.conteiner.removeClass('active');
+                PopUp.itensDetails.conteiner.addClass('not-active');
+            }
+        },
+        addItemDetais: function (id) {
+            var selectedProduct;
+            {
+                var iArray = [
+                    Catalog.Weapons,
+                    Catalog.Armors,
+                    Catalog.Potions,
+                    Catalog.Cards
+                ];
+                for (var i = 0; i < iArray.length; i++) {
+                    for (var product in iArray[i]) {
+                        if (iArray[i]["" + product].getId() == id) {
+                            selectedProduct = iArray[i]["" + product];
+                            break;
+                        }
+                    }
+                    if (selectedProduct != undefined)
+                        break;
+                }
+            }
+            $('#itensDetails > div > h3').text(selectedProduct.getName());
+            $('#itensDetails > div > img').attr('src', "" + selectedProduct.getImg()).attr('alt', "" + selectedProduct.getName());
+            $('#coastDetails').val(selectedProduct.getPrice() + " coins");
+            $('#itensDetails > div > p').text(selectedProduct.getDescription());
+        }
     }
 };
 // * Eventos de click
@@ -235,6 +282,7 @@ var PopUp = {
     PopUp.armors.button.on('click', PopUp.armors.open);
     PopUp.potions.button.on('click', PopUp.potions.open);
     PopUp.cards.button.on('click', PopUp.cards.open);
+    PopUp.itensDetails.button.on('click', PopUp.itensDetails.close);
 }
 // * Renderização dos produtos
 {
@@ -261,8 +309,8 @@ var PopUp = {
             }
             var imgDetails = $('<figure />');
             imgDetails.append($('<img />').attr('src', "" + iArray[i]["" + product].getImg()).attr('alt', "" + iArray[i]["" + product].getName()));
-            imgDetails.append($('<figcaption />').text(iArray[i]["" + product].getName() + "\n" + iArray[i]["" + product].getPrice() + " coins"));
-            var newProduct = $('<div />').addClass('product').addClass('button').append(imgDetails);
+            imgDetails.append($('<figcaption />').html(iArray[i]["" + product].getName() + "<br>" + iArray[i]["" + product].getPrice() + " coins"));
+            var newProduct = $('<div />').addClass('product').addClass('button').attr('onclick', "PopUp.itensDetails.open(\"item-" + iArray[i]["" + product].getId() + "\")").append(imgDetails);
             newColumn.append(newProduct);
             item++;
         }

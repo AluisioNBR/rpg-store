@@ -27,7 +27,7 @@ body{
     background-color: #colors[@bodyBackground];
 }
 
-.button, input#name{
+.button, input#name, input#coastDetails{
     font-size: 1rem;
 	padding: .5rem;
 	cursor: pointer;
@@ -98,7 +98,7 @@ body{
     }
 }
 
-#close-store-button{
+#close-store-button, #close-itensDetails{
     background-color: #colors[@defaultRed];
     color: #colors[@white];
     border: none;
@@ -125,14 +125,16 @@ body{
 
 .product{
     width: 120px;
-    height: 160px;
+    height: 172px;
     background-color: #colors[@white];
-    padding: 2rem 1.5rem;
+    padding: 1.5rem;
     overflow: hidden;
 
     figcaption, img{
-        width: 100%;
         font-size: .9rem;
+        text-align: center;
+
+        width: 100%;
     }
 }
 
@@ -234,3 +236,36 @@ body{
 }
 
 /* ################################ */
+
+#itensDetails{
+    .pop-up{
+        width: 35%;
+        height: 80%;
+        img{
+            width: 64px;
+            height: 64px;
+        }
+
+        @media(max-width: 800px){
+            width: 50%;
+        }
+        
+        @media(max-width: 720px){
+            width: 70%;
+        }
+    }
+}
+
+#coastDetails{
+    width: 50%;
+    border: none;
+
+    color: inherit;
+    background-color: inherit;
+}
+
+#buyItem{
+    color: #colors[@white];
+    background-color: #colors[@defaultGreen];
+    border: none;
+}

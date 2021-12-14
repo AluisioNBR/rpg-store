@@ -5,12 +5,14 @@ type active = () => void | string | number | object
 class Item {
     private name: string
     private id: number
+    private description: string
     private price: number
     private img: string
 
-    constructor(name: string, id: number, price: number, img: string = '') {
+    constructor(name: string, id: number, description: string, price: number, img: string = '') {
         this.name = name
         this.id = id
+        this.description = description
         this.price = price
         this.img = img
     }
@@ -30,6 +32,10 @@ class Item {
     getId(){
         return this.id
     }
+
+    getDescription(){
+        return this.description
+    }
     
     getPrice(){
         return this.price
@@ -45,8 +51,8 @@ class Weapon extends Item {
     private damage: number
     private durability: number
 
-    constructor(name: string, id: number, price: number, img: string = '', damage: number, durability: number){
-        super(name, id, price, img)
+    constructor(name: string, id: number, description: string, price: number, img: string = '', damage: number, durability: number){
+        super(name, id, description, price, img)
         this.damage = damage
         this.durability = durability
     }
@@ -69,8 +75,8 @@ class Armor extends Item {
     private protection: number
     private durability: number
 
-    constructor(name: string, id: number, price: number, img: string = '', protection: number, durability: number){
-        super(name, id, price, img)
+    constructor(name: string, id: number, description: string, price: number, img: string = '', protection: number, durability: number){
+        super(name, id, description, price, img)
         this.protection = protection
         this.durability = durability
     }
@@ -93,8 +99,8 @@ class Potion extends Item {
     private type: string
     private power: number
 
-    constructor(name: string, id: number, price: number, img: string = '', type: 'heal' | 'mana/stamina' | 'strength' | 'protection' | 'xp', power: number){
-        super(name, id, price, img)
+    constructor(name: string, id: number, description: string, price: number, img: string = '', type: 'heal' | 'mana/stamina' | 'strength' | 'protection' | 'xp', power: number){
+        super(name, id, description, price, img)
         this.type = type
         this.power = power
     }
@@ -124,8 +130,8 @@ class Potion extends Item {
 class Card extends Item {
     private efect: active
 
-    constructor(name: string, id: number, price: number, img: string = '', efect: active){
-        super(name, id, price, img)
+    constructor(name: string, id: number, description: string, price: number, img: string = '', efect: active){
+        super(name, id, description, price, img)
         this.efect = efect
     }
 
@@ -139,25 +145,25 @@ class Card extends Item {
 // * Catálogo dos itens
 const Catalog = {
     Weapons: {
-        testeSword: new Weapon('Espada Teste', 1, 100, '', 50, 75),
-        testeSword2: new Weapon('Espada Teste', 2, 100, '', 50, 75),
-        testeSword3: new Weapon('Espada Teste', 3, 100, '', 50, 75)
+        testeSword: new Weapon('Espada Teste', 1, 'Apenas uma espada de teste', 100, '', 50, 75),
+        testeSword2: new Weapon('Espada Teste', 2, 'Apenas uma espada de teste', 100, '', 50, 75),
+        testeSword3: new Weapon('Espada Teste', 3, 'Apenas uma espada de teste', 100, '', 50, 75)
     },
 
     Armors: {
-        testArmor: new Armor('Armadura Teste', 4, 100, '', 50, 75),
-        testArmor2: new Armor('Armadura Teste', 5, 100, '', 50, 75),
-        testArmor3: new Armor('Armadura Teste', 6, 100, '', 50, 75),
-        testArmor4: new Armor('Armadura Teste', 7, 100, '', 50, 75)
+        testArmor: new Armor('Armadura Teste', 4, 'Apenas uma armadura de teste', 100, '', 50, 75),
+        testArmor2: new Armor('Armadura Teste', 5, 'Apenas uma armadura de teste', 100, '', 50, 75),
+        testArmor3: new Armor('Armadura Teste', 6, 'Apenas uma armadura de teste', 100, '', 50, 75),
+        testArmor4: new Armor('Armadura Teste', 7, 'Apenas uma armadura de teste', 100, '', 50, 75)
     },
 
     Potions: {
-        testPotion: new Potion('Pequena Cura', 8, 100, '', 'heal', 25)
+        testPotion: new Potion('Pequena Cura', 8, 'Apenas uma poção de teste', 100, '', 'heal', 25)
     },
 
     Cards: {
-        testCard: new Card('Olá!', 9, 10, '', () => console.log('Olá')),
-        testCard2: new Card('Dev', 9, 10, '', () => console.log('Desenvolvida por mim, Aluísio!'))
+        testCard: new Card('Olá!', 9, 'Apenas um card de teste', 10, '', () => console.log('Olá')),
+        testCard2: new Card('Dev', 9, 'Apenas um card de teste', 10, '', () => console.log('Desenvolvida por mim, Aluísio!'))
     }
 }
 
@@ -252,6 +258,56 @@ const PopUp = {
                 PopUp.cards.conteiner.addClass('not-active')
             }
         }
+    },
+
+    itensDetails: {
+        conteiner: $('#itensDetails'),
+        button: $('#close-itensDetails'),
+
+        open(itemId: string){
+            if(PopUp.itensDetails.conteiner.hasClass('not-active')){
+                PopUp.itensDetails.conteiner.removeClass('not-active')
+                PopUp.itensDetails.conteiner.addClass('active')
+
+                let id = Number(itemId.split('-')[1])
+                PopUp.itensDetails.addItemDetais(id)
+            }
+        },
+
+        close(){
+            if(PopUp.itensDetails.conteiner.hasClass('active')){
+                PopUp.itensDetails.conteiner.removeClass('active')
+                PopUp.itensDetails.conteiner.addClass('not-active')
+            }
+        },
+
+        addItemDetais(id: number){
+            let selectedProduct: Item
+            {
+                let iArray = [
+                    Catalog.Weapons,
+                    Catalog.Armors,
+                    Catalog.Potions,
+                    Catalog.Cards
+                ]
+
+                for(let i = 0; i < iArray.length; i++){
+                    for(let product in iArray[i]){
+                        if(iArray[i][`${product}`].getId() == id) {
+                            selectedProduct = iArray[i][`${product}`]
+                            break
+                        }
+                    }
+
+                    if(selectedProduct != undefined) break
+                }
+            }
+
+            $('#itensDetails > div > h3').text(selectedProduct.getName())
+            $('#itensDetails > div > img').attr('src', `${selectedProduct.getImg()}`).attr('alt', `${selectedProduct.getName()}`)
+            $('#coastDetails').val(`${selectedProduct.getPrice()} coins`)
+            $('#itensDetails > div > p').text(selectedProduct.getDescription())
+        }
     }
 }
 
@@ -261,6 +317,7 @@ const PopUp = {
     PopUp.armors.button.on('click', PopUp.armors.open)
     PopUp.potions.button.on('click', PopUp.potions.open)
     PopUp.cards.button.on('click', PopUp.cards.open)
+    PopUp.itensDetails.button.on('click', PopUp.itensDetails.close)
 }
 
 // * Renderização dos produtos
@@ -292,9 +349,9 @@ const PopUp = {
 
             let imgDetails = $('<figure />')
             imgDetails.append($('<img />').attr('src', `${iArray[i][`${product}`].getImg()}`).attr('alt', `${iArray[i][`${product}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${iArray[i][`${product}`].getName()}\n${iArray[i][`${product}`].getPrice()} coins`))
+            imgDetails.append($('<figcaption />').html(`${iArray[i][`${product}`].getName()}<br>${iArray[i][`${product}`].getPrice()} coins`))
 
-            let newProduct = $('<div />').addClass('product').addClass('button').append(imgDetails)
+            let newProduct = $('<div />').addClass('product').addClass('button').attr('onclick', `PopUp.itensDetails.open("item-${iArray[i][`${product}`].getId()}")`).append(imgDetails)
             newColumn.append(newProduct)
 
             item++
