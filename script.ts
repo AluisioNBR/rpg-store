@@ -1,5 +1,7 @@
+// * Tipo de funções de cards
 type active = () => void | string | number | object
 
+// * Classe item padrão
 class Item {
     private name: string
     private id: number
@@ -38,6 +40,7 @@ class Item {
     }
 }
 
+// * Classe item arma
 class Weapon extends Item {
     private damage: number
     private durability: number
@@ -61,6 +64,7 @@ class Weapon extends Item {
     }
 }
 
+// * Classe item armadura
 class Armor extends Item {
     private protection: number
     private durability: number
@@ -84,6 +88,7 @@ class Armor extends Item {
     }
 }
 
+// * Classe item poção
 class Potion extends Item {
     private type: string
     private power: number
@@ -115,6 +120,7 @@ class Potion extends Item {
     }
 }
 
+// * Classe item card
 class Card extends Item {
     private efect: active
 
@@ -130,6 +136,7 @@ class Card extends Item {
     }
 }
 
+// * Catálogo dos itens
 const Catalog = {
     Weapons: {
         testeSword: new Weapon('Espada Teste', 1, 100, '', 50, 75),
@@ -150,7 +157,7 @@ const Catalog = {
 
     Cards: {
         testCard: new Card('Olá!', 9, 10, '', () => console.log('Olá')),
-        testCard2: new Card('Desenvolvedor', 9, 10, '', () => console.log('Desenvolvida por mim, Aluísio!'))
+        testCard2: new Card('Dev', 9, 10, '', () => console.log('Desenvolvida por mim, Aluísio!'))
     }
 }
 
@@ -248,6 +255,7 @@ const PopUp = {
     }
 }
 
+// * Eventos de click
 {
     PopUp.weapons.button.on('click', PopUp.weapons.open)
     PopUp.armors.button.on('click', PopUp.armors.open)
@@ -255,87 +263,39 @@ const PopUp = {
     PopUp.cards.button.on('click', PopUp.cards.open)
 }
 
-// * Inicialização dos produtos
+// * Renderização dos produtos
 {
-    {
+    let iArray = [
+        Catalog.Weapons,
+        Catalog.Armors,
+        Catalog.Potions,
+        Catalog.Cards
+    ]
+
+    let conteiners = [
+        PopUp.weapons.conteiner,
+        PopUp.armors.conteiner,
+        PopUp.potions.conteiner,
+        PopUp.cards.conteiner
+    ]
+
+    for(let i = 0; i < iArray.length; i++){
         let newColumn: JQuery<HTMLElement>
         let item: number
-        for(let weapon in Catalog.Weapons){
-            if(PopUp.weapons.conteiner.is(':empty') || item == 2){
+        
+        for(let product in iArray[i]){
+            if(conteiners[i].is(':empty') || item == 2){
                 newColumn = $('<div />').addClass('column')
-                PopUp.weapons.conteiner.append(newColumn)
+                conteiners[i].append(newColumn)
                 item = 0
             }
 
             let imgDetails = $('<figure />')
-            imgDetails.append($('<img />').attr('src', `${Catalog.Weapons[`${weapon}`].getImg()}`).attr('alt', `${Catalog.Weapons[`${weapon}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${Catalog.Weapons[`${weapon}`].getName()}\n${Catalog.Weapons[`${weapon}`].getPrice()} coins`))
+            imgDetails.append($('<img />').attr('src', `${iArray[i][`${product}`].getImg()}`).attr('alt', `${iArray[i][`${product}`].getName()}`))
+            imgDetails.append($('<figcaption />').text(`${iArray[i][`${product}`].getName()}\n${iArray[i][`${product}`].getPrice()} coins`))
 
-            let newWeapon = $('<div />').addClass('product').addClass('button').append(imgDetails)
-            newColumn.append(newWeapon)
-
-            item++
-        }
-    }
-
-    {
-        let newColumn: JQuery<HTMLElement>
-        let item: number
-        for(let armor in Catalog.Armors){
-            if(PopUp.armors.conteiner.is(':empty') || item == 2){
-                newColumn = $('<div />').addClass('column')
-                PopUp.armors.conteiner.append(newColumn)
-                item = 0
-            }
-
-            let imgDetails = $('<figure />')
-            imgDetails.append($('<img />').attr('src', `${Catalog.Armors[`${armor}`].getImg()}`).attr('alt', `${Catalog.Armors[`${armor}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${Catalog.Armors[`${armor}`].getName()}\n${Catalog.Armors[`${armor}`].getPrice()} coins`))
-
-            let newArmor = $('<div />').addClass('product').addClass('button').append(imgDetails)
-            newColumn.append(newArmor)
-
-            item++
-        }
-    }
-
-    {
-        let newColumn: JQuery<HTMLElement>
-        let item: number
-        for(let potion in Catalog.Potions){
-            if(PopUp.potions.conteiner.is(':empty') || item == 2){
-                newColumn = $('<div />').addClass('column')
-                PopUp.potions.conteiner.append(newColumn)
-                item = 0
-            }
-
-            let imgDetails = $('<figure />')
-            imgDetails.append($('<img />').attr('src', `${Catalog.Potions[`${potion}`].getImg()}`).attr('alt', `${Catalog.Potions[`${potion}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${Catalog.Potions[`${potion}`].getName()}\n${Catalog.Potions[`${potion}`].getPrice()} coins`))
-
-            let newPotion = $('<div />').addClass('product').addClass('button').append(imgDetails)
-            newColumn.append(newPotion)
-
-            item++
-        }
-    }
-
-    {
-        let newColumn: JQuery<HTMLElement>
-        let item: number
-        for(let card in Catalog.Cards){
-            if(PopUp.cards.conteiner.is(':empty') || item == 2){
-                newColumn = $('<div />').addClass('column')
-                PopUp.cards.conteiner.append(newColumn)
-                item = 0
-            }
-
-            let imgDetails = $('<figure />')
-            imgDetails.append($('<img />').attr('src', `${Catalog.Cards[`${card}`].getImg()}`).attr('alt', `${Catalog.Cards[`${card}`].getName()}`))
-            imgDetails.append($('<figcaption />').text(`${Catalog.Cards[`${card}`].getName()}\n${Catalog.Cards[`${card}`].getPrice()} coins`))
-
-            let newCard = $('<div />').addClass('product').addClass('button').append(imgDetails)
-            newColumn.append(newCard)
+            let newProduct = $('<div />').addClass('product').addClass('button').append(imgDetails)
+            newColumn.append(newProduct)
 
             item++
         }
