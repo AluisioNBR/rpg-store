@@ -303,10 +303,37 @@ const PopUp = {
                 }
             }
 
-            $('#itensDetails > div > h3').text(selectedProduct.getName())
+            PopUp.buyMsg.selectedProduct = selectedProduct
+
+            $('#itensDetails > div > h2').text(selectedProduct.getName())
             $('#itensDetails > div > img').attr('src', `${selectedProduct.getImg()}`).attr('alt', `${selectedProduct.getName()}`)
             $('#coastDetails').val(`${selectedProduct.getPrice()} coins`)
             $('#itensDetails > div > p').text(selectedProduct.getDescription())
+        }
+    },
+
+    buyMsg: {
+        conteiner: $('#buyMsg'),
+        openButton: $('#buyItem'),
+        closeButton: $('#close-buyMsg'),
+        selectedProduct: new Item('undefined', 0, '', 0),
+
+        open(){
+            PopUp.itensDetails.close()
+
+            let buy = PopUp.buyMsg.selectedProduct.buy(50)
+
+            if(buy == undefined) $('#buyMsg > div > h2').text("Não foi possível realizar a compra!")
+
+            else $('#buyMsg > div > h2').text("Compra realizada com sucesso!")
+
+            PopUp.buyMsg.conteiner.removeClass('not-active')
+            PopUp.buyMsg.conteiner.addClass('active')
+        },
+
+        close(){
+            PopUp.buyMsg.conteiner.removeClass('active')
+            PopUp.buyMsg.conteiner.addClass('not-active')
         }
     }
 }
@@ -318,6 +345,8 @@ const PopUp = {
     PopUp.potions.button.on('click', PopUp.potions.open)
     PopUp.cards.button.on('click', PopUp.cards.open)
     PopUp.itensDetails.button.on('click', PopUp.itensDetails.close)
+    PopUp.buyMsg.openButton.on('click', PopUp.buyMsg.open)
+    PopUp.buyMsg.closeButton.on('click', PopUp.buyMsg.close)
 }
 
 // * Renderização dos produtos
